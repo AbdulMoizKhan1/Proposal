@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NileStay — Premium Proposal</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{
+      --bg:#061021;
+      --primary-grad: linear-gradient(135deg,#4b6bfd 0%, #1f9dff 100%);
+      --accent-grad-1: linear-gradient(135deg,#c5ff72 0%, #a3ff7a 100%);
+      --accent-grad-2: linear-gradient(135deg,#ff8359 0%, #ff3d6d 100%);
+      --glass: rgba(255,255,255,0.03);
+      --muted: rgba(255,255,255,0.7);
+      --card-bg: rgba(255,255,255,0.02);
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:radial-gradient(ellipse at 10% 10%, rgba(75,55,200,0.12), transparent 8%), radial-gradient(ellipse at 90% 90%, rgba(255,61,109,0.06), transparent 10%), var(--bg);color:#fff;-webkit-font-smoothing:antialiased}
+    /* watermark using logo */
+    body::before{content:'';position:fixed;inset:0;background-image:url('logo.png');background-repeat:repeat;background-size:160px;opacity:0.03;pointer-events:none;filter:grayscale(40%);}
+
+    .container{max-width:1200px;margin:36px auto;padding:28px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo-wrap{width:72px;height:72px;border-radius:14px;background:var(--primary-grad);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(20,25,60,0.6);overflow:hidden}
+    .logo-wrap img{width:78%;height:78%;object-fit:contain;display:block}
+    .title h1{font-size:20px;margin:0;font-weight:700;letter-spacing:0.2px}
+    .lead{margin:0;color:var(--muted);font-size:13px}
+
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:24px;margin-top:24px;align-items:start}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:20px;box-shadow:0 8px 30px rgba(2,6,23,0.6);backdrop-filter: blur(6px)}
+    h2{margin:0 0 8px;font-size:22px}
+    h3{margin:0 0 8px;font-size:16px}
+    p{margin:0}
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .tag{padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03)}
+
+    .kpis{display:flex;gap:12px;margin-top:14px}
+    .kpi{flex:1;padding:12px;border-radius:12px;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);text-align:center}
+    .kpi small{display:block;color:var(--muted);font-size:12px}
+    .kpi strong{display:block;font-size:18px;margin-top:6px}
+
+    .cta{display:flex;gap:12px;margin-top:18px}
+    .btn{padding:12px 16px;border-radius:10px;font-weight:800;border:none;cursor:pointer;font-size:14px}
+    .btn-primary{background:var(--primary-grad);box-shadow:0 10px 30px rgba(75,55,200,0.18);color:#fff;transition:transform .28s ease}
+    .btn-primary:hover{transform:translateY(-4px)}
+    .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+
+    /* Plans layout */
+    .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+    .plan{padding:18px;border-radius:12px;position:relative;overflow:hidden;transition:transform .28s ease,box-shadow .28s ease}
+    .plan:hover{transform:translateY(-8px);box-shadow:0 20px 60px rgba(10,20,50,0.45)}
+    .plan.basic{background:var(--card-bg);border:1px solid rgba(255,255,255,0.03)}
+    .plan.standard{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.035);}
+    .plan.premium{background:linear-gradient(90deg, rgba(75,107,253,0.14), rgba(255,130,90,0.06));border:1px solid rgba(255,255,255,0.02);box-shadow:0 20px 40px rgba(75,55,200,0.14)}
+    .plan .price{font-size:24px;font-weight:900;margin-top:10px}
+    .plan ul{margin:12px 0 0;padding-left:16px;color:var(--muted)}
+
+    .ribbon{position:absolute;top:12px;right:12px;padding:8px 12px;border-radius:999px;font-weight:800;background:linear-gradient(90deg,#c5ff72,#a3ff7a);color:#062}
+
+    /* two column sections */
+    .two-col{display:grid;grid-template-columns:1fr 420px;gap:18px;margin-top:22px}
+    .features{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .feature{padding:12px;border-radius:10px;background:rgba(255,255,255,0.02);display:flex;gap:12px;align-items:flex-start;transition:transform .2s ease}
+    .feature:hover{transform:translateY(-6px)}
+
+    .chart-card{padding:14px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent)}
+
+    footer{margin-top:30px;padding:18px;border-radius:12px;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);text-align:center}
+    .fiverr-note{margin-top:12px;padding:12px;border-radius:8px;background:linear-gradient(90deg,#fff1,#fff0);border:1px solid rgba(255,255,255,0.06);font-weight:800;color:#fff}
+
+    /* responsiveness */
+    @media (max-width:980px){.hero,.two-col{grid-template-columns:1fr}.plans{grid-template-columns:1fr}.container{padding:18px}}
+    @media (max-width:520px){.kpis{flex-direction:column}.logo-wrap{width:56px;height:56px}}
+
+    /* accessibility focus */
+    .btn:focus{outline:3px solid rgba(255,255,255,0.06);outline-offset:3px}
+
+    /* reveal animation */
+    .reveal{opacity:0;transform:translateY(18px);transition:all 700ms cubic-bezier(.2,.9,.25,1)}
+    .reveal.visible{opacity:1;transform:none}
+  </style>
+</head>
+<body>
+  <div class="container" role="main">
+    <header>
+      <div class="brand" aria-hidden="false">
+        <div class="logo-wrap" aria-hidden="true"><img src="logo.png" alt="Company logo" /></div>
+        <div class="title">
+          <h1>NileStay — Premium Proposal</h1>
+          <p class="lead">Interactive boardroom-grade proposal — scalable operations for short-term rentals</p>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-weight:700">Prepared for: <span style="opacity:.9">Client</span></div>
+        <div style="color:var(--muted);font-size:13px">Proposal • Version 1.0</div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-label="Project overview">
+        <article class="card reveal" id="overview">
+          <h2>Project Overview</h2>
+          <p style="color:var(--muted);margin-top:8px">NileStay simplifies property operations by syncing bookings, automating provider dispatch, and managing payments — reducing double-bookings and operational overhead.</p>
+
+          <div class="tags" role="list" aria-label="Key tags">
+            <div class="tag">iCal Sync</div>
+            <div class="tag">Real-time Matching</div>
+            <div class="tag">Stripe Payments</div>
+            <div class="tag">GDPR-ready</div>
+          </div>
+
+          <div class="kpis" aria-hidden="true">
+            <div class="kpi"><small>Avg fill time</small><strong>28s</strong></div>
+            <div class="kpi"><small>Provider accept</small><strong>89%</strong></div>
+            <div class="kpi"><small>Uptime</small><strong>99.92%</strong></div>
+          </div>
+
+          <div class="cta" role="region" aria-label="Primary actions">
+            <button class="btn btn-primary" id="choosePremium" aria-label="Choose Premium">Choose Premium</button>
+            <button class="btn btn-outline" id="downloadPdf" aria-label="Download proposal as PDF">Download PDF</button>
+          </div>
+
+          <p style="color:var(--muted);margin-top:12px;font-size:14px">Key benefits: reduces double-bookings, automates dispatch, improves host earnings potential and offers subscription monetization.</p>
+        </article>
+
+        <aside class="card reveal" aria-label="Plans summary" id="plan-visual">
+          <h3 style="margin-top:0">Plans & Estimations</h3>
+          <canvas id="planChart" width="380" height="220" aria-hidden="false"></canvas>
+          <p style="color:var(--muted);font-size:13px;margin-top:8px">Premium plan is recommended for production-grade launch and scaling.</p>
+        </aside>
+      </section>
+
+      <section class="card reveal" id="plans" aria-label="Tiered plans">
+        <h2>Tiered Plans — At a glance</h2>
+        <div class="plans" role="list" aria-label="Pricing plans">
+          <div class="plan basic" role="listitem" aria-label="Basic plan">
+            <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:900">BASIC</div><div style="font-size:12px;color:var(--muted)">Essential MVP</div></div>
+            <div class="price">$6,000</div>
+            <ul>
+              <li>Requirements & Simple Flow</li>
+              <li>Basic Admin UI</li>
+              <li>Minimal Backend APIs</li>
+            </ul>
+            <p style="color:var(--muted);font-size:13px;margin-top:10px">Good for small pilots.</p>
+          </div>
+
+          <div class="plan standard" role="listitem" aria-label="Standard plan">
+            <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:900">STANDARD</div><div style="font-size:12px;color:var(--muted)">Balanced Delivery</div></div>
+            <div class="price">$9,500</div>
+            <ul>
+              <li>Branding & Logo</li>
+              <li>Responsive Showcase Site</li>
+              <li>Full Backend + Payments</li>
+            </ul>
+            <p style="color:var(--muted);font-size:13px;margin-top:10px">Best for early growth.</p>
+          </div>
+
+          <div class="plan premium" role="listitem" aria-label="Premium plan">
+            <div class="ribbon">Recommended</div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:900">PREMIUM</div><div style="font-size:12px;color:var(--muted)">Enterprise-ready</div></div>
+            <div class="price">$14,000</div>
+            <ul>
+              <li>Full PRD, Architecture & Risk Assessment</li>
+              <li>Comprehensive UI/UX for all users</li>
+              <li>Scalable Backend, iCal Sync, Multi-Gateway Payments</li>
+            </ul>
+            <p style="color:var(--muted);font-size:13px;margin-top:10px">Recommended for production-grade launch and scale.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:18px;display:flex;gap:12px;align-items:stretch;flex-wrap:wrap">
+          <div class="chart-card" style="flex:1">
+            <h4 style="margin:0 0 8px">Cost vs Value</h4>
+            <canvas id="valueChart" width="380" height="210"></canvas>
+          </div>
+          <div class="chart-card" style="width:360px">
+            <h4 style="margin:0 0 8px">Premium Justification</h4>
+            <ol style="margin:0 0 0 18px;color:var(--muted)">
+              <li>Reduces rework and long-term costs</li>
+              <li>Improved adoption through better UX</li>
+              <li>Enterprise-grade security and monitoring</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Accessible detailed table as required -->
+        <div style="margin-top:18px;overflow:auto">
+          <table aria-label="Detailed estimation table" style="width:100%;border-collapse:collapse;text-align:left;">
+            <thead>
+              <tr style="color:var(--muted);font-size:13px">
+                <th style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.04)">Task</th>
+                <th style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.04)">Details</th>
+                <th style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.04)">Technical Task Implementation</th>
+                <th style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.04)">Timeline</th>
+                <th style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.04)">Hourly Rate ($)</th>
+                <th style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.04)">Estimated Hours</th>
+                <th style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.04)">Estimated Cost (USD)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">Phase 1: Requirements Finalization</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">Workshops, PRD, Flow diagrams</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">• Requirement workshops<br>• PRD & SRS<br>• Architecture diagram</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">1.5–2 weeks</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">20</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">40</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">$800</td>
+              </tr>
+              <tr>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">Phase 2: Brand Design</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">Logo, guidelines, social assets</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">• Logo variants<br>• Brand guide<br>• Social kit</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">2 weeks</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">20</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">50</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">$1000</td>
+              </tr>
+              <tr>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">Phase 3: UI/UX Admin</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">High-fidelity admin screens</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">• Wireframes<br>• Figma screens<br>• Prototype</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">2.5–3 weeks</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">20</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">70</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">$1400</td>
+              </tr>
+              <tr>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">Phase 4: UI/UX Providers & Tenants</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">Provider & Tenant flows</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">• Provider dashboard<br>• Tenant flows<br>• Testing</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">2 weeks</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">20</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">50</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">$1000</td>
+              </tr>
+              <tr>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">Phase 5: Frontend Development</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">Website & Admin frontend</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">• React/Next.js setup<br>• Component library<br>• API stubs</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">3–4 weeks</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">20</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">120</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">$2400</td>
+              </tr>
+              <tr>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">Phase 6: Backend Development</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">APIs, DB & integrations</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">• Node/Nest or FastAPI<br>• Postgres + Redis<br>• Stripe webhooks</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">4–5 weeks</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">20</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">160</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">$3200</td>
+              </tr>
+              <tr>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">Phase 7: Integration</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">Connect frontend to APIs</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">• API consumption<br>• sockets & realtime<br>• error handling</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">2–3 weeks</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">20</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">80</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">$1600</td>
+              </tr>
+              <tr>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">Phase 8: Testing & QA</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">Unit, integration, E2E, security tests</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">• Test suites<br>• Load testing<br>• Security scan</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">2 weeks</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">20</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">60</td>
+                <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.02)">$1200</td>
+              </tr>
+              <tr>
+                <td style="padding:12px">Phase 9: Deployment & Launch</td>
+                <td style="padding:12px">CI/CD, infra, monitoring, SSL</td>
+                <td style="padding:12px">• IaC scripts<br>• CD pipeline<br>• monitoring</td>
+                <td style="padding:12px">1 week</td>
+                <td style="padding:12px">20</td>
+                <td style="padding:12px">30</td>
+                <td style="padding:12px">$600</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="two-col" aria-label="Technical details and market">
+        <article class="card reveal" id="tech">
+          <h2>Technical Details</h2>
+          <p style="color:var(--muted);margin-top:8px">Modern stack for maintainability, realtime operations and observability.</p>
+
+          <h3 style="margin-top:12px">Stack & Integrations</h3>
+          <ul style="color:var(--muted);margin-left:18px">
+            <li>Frontend: React (Next.js) or Flutter Web</li>
+            <li>Backend: Node.js (NestJS) or FastAPI</li>
+            <li>DB: PostgreSQL (managed), Redis (caching & queues)</li>
+            <li>Realtime: Socket.IO</li>
+            <li>Payments: Stripe (primary), Paymob/Fawry adapters</li>
+            <li>Notifications: Firebase Push, Twilio, SendGrid</li>
+          </ul>
+
+          <h3 style="margin-top:12px">Implementation tasks (technical)</h3>
+          <ul style="color:var(--muted);margin-left:18px">
+            <li>Design DB schema & migrations</li>
+            <li>iCal ingestion worker with dedupe & conflict detection</li>
+            <li>Matching & queue system (BullMQ or SQS)</li>
+            <li>Stripe integration with secure webhooks & idempotency</li>
+            <li>Observability: OpenTelemetry, Sentry, Prometheus/Grafana</li>
+          </ul>
+        </article>
+
+        <aside class="card reveal" id="market">
+          <h3>Market Analysis</h3>
+          <p style="color:var(--muted);margin-top:8px">Short-term rental ops automation reduces cost and increases bookings — demand index growing QoQ.</p>
+          <div style="margin-top:12px"><canvas id="marketChart" width="360" height="220"></canvas></div>
+        </aside>
+      </section>
+
+      <section class="card reveal" id="features">
+        <h2>Features & Highlights</h2>
+        <div class="features" style="margin-top:12px">
+          <div class="feature"><div style="width:44px;height:44px;border-radius:8px;background:var(--primary-grad);display:flex;align-items:center;justify-content:center;margin-right:8px">✓</div><div><strong>Calendar Sync</strong><div style="color:var(--muted);font-size:13px">Reliable iCal import with conflict resolution</div></div></div>
+          <div class="feature"><div style="width:44px;height:44px;border-radius:8px;background:linear-gradient(90deg,#ffd86b,#ff7a66);display:flex;align-items:center;justify-content:center;margin-right:8px">⚡</div><div><strong>Real-time Dispatch</strong><div style="color:var(--muted);font-size:13px">Queue-based matching & retries</div></div></div>
+          <div class="feature"><div style="width:44px;height:44px;border-radius:8px;background:linear-gradient(90deg,#c5ff72,#a3ff7a);display:flex;align-items:center;justify-content:center;margin-right:8px">💳</div><div><strong>Secure Payments</strong><div style="color:var(--muted);font-size:13px">Stripe Checkout & payout workflow</div></div></div>
+          <div class="feature"><div style="width:44px;height:44px;border-radius:8px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;margin-right:8px">📊</div><div><strong>Analytics</strong><div style="color:var(--muted);font-size:13px">KPI dashboard & exportable reports</div></div></div>
+        </div>
+      </section>
+
+      <section class="card reveal" id="summary">
+        <h2>Summary & Next Steps</h2>
+        <ol style="color:var(--muted);margin-left:18px">
+          <li>Finalize requirements & sign PRD</li>
+          <li>Approve branding & UI/UX</li>
+          <li>Start development (parallel frontend & backend)</li>
+          <li>QA, deploy, launch and monitor</li>
+        </ol>
+      </section>
+
+      <section class="card reveal" id="support">
+        <h2>Support & Maintenance</h2>
+        <p style="color:var(--muted);margin-top:8px">Premium support includes 4 weeks of dedicated post-launch support. Optional monthly retainers available.</p>
+        <ul style="color:var(--muted);margin-left:18px">
+          <li>24/7 critical issue escalation (launch window)</li>
+          <li>Weekly health checks & monitoring</li>
+          <li>Monthly security patches (retainer)</li>
+        </ul>
+      </section>
+
+      <footer class="card" role="contentinfo">
+        <div style="font-weight:800">NileStay — Premium Proposal</div>
+        <div style="color:var(--muted);margin-top:8px">This interactive proposal presents the scope, costing and technical approach for the project.</div>
+        <div class="fiverr-note" role="note">All project communication and payments will be conducted exclusively through Fiverr, in full adherence to Fiverr policies.</div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Intersection reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries)=>{entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); } }); },{threshold:0.12});
+    reveals.forEach(r=>io.observe(r));
+
+    // Charts
+    const planCtx = document.getElementById('planChart').getContext('2d');
+    new Chart(planCtx,{type:'doughnut',data:{labels:['Basic','Standard','Premium'],datasets:[{data:[6000,9500,14000],backgroundColor:['#8fb5ff','#ffd86b','#ff7a66'],borderWidth:0}]},options:{cutout:'62%',plugins:{legend:{display:false}}}});
+
+    const valueCtx = document.getElementById('valueChart').getContext('2d');
+    new Chart(valueCtx,{type:'bar',data:{labels:['Basic','Standard','Premium'],datasets:[{label:'Cost (USD)',data:[6000,9500,14000],backgroundColor:['#8fb5ff','#ffd86b','#ff7a66']}]},options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
+
+    const marketCtx = document.getElementById('marketChart').getContext('2d');
+    new Chart(marketCtx,{type:'line',data:{labels:['Q1','Q2','Q3','Q4'],datasets:[{label:'Demand Index',data:[35,50,68,84],fill:true,tension:0.3,backgroundColor:'rgba(75,107,253,0.12)',borderColor:'#4b6bfd'}]},options:{plugins:{legend:{display:false}},scales:{y:{min:0,max:100}}}});
+
+    // PDF download (client-side, very light)
+    document.getElementById('downloadPdf').addEventListener('click',()=>{
+      // use print-to-pdf as a simple client-side method
+      window.print();
+    });
+
+    document.getElementById('choosePremium').addEventListener('click',()=>{
+      alert('You selected the PREMIUM plan. Please proceed via Fiverr to purchase and start the project.');
+    });
+  </script>
+</body>
+</html>
